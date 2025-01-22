@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYSEG Bill Analyzer</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <script src="vendor/pdf.min.js"></script>
+    <script src="vendor/chart.min.js"></script>
+    <link rel="preload" href="vendor/pdf.worker.min.js" as="script">
+</head>
+<body>
+    <header>
+        <h1>NYSEG Bill Analyzer</h1>
+        <p><strong>Parse the bills from your least favorite foreign-owned natural monopoly!</strong></p>
+    </header>
+
+    <main>
+        <div id="privacy-notice-top" class="privacy-notice">
+            <strong>All processing happens in your browser. Your data never leaves your device.</strong>
+        </div>
+
+        <section id="upload-section">
+            <div id="drop-zone">
+                <div class="drop-zone-content">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    <p>Drag and drop NYSEG PDF bills here</p>
+                    <p class="sub-text">or click to select files</p>
+                </div>
+                <input type="file" id="file-input" multiple accept=".pdf" />
+            </div>
+            <div id="processing-status" class="hidden">
+                <div class="spinner"></div>
+                <span>Processing bills...</span>
+            </div>
+        </section>
+
+        <section id="results-section" class="hidden">
+            <div class="toolbar">
+                <button id="export-csv-btn" class="btn-primary">Export to CSV</button>
+                <button id="upload-more-btn" class="btn-secondary">Upload More</button>
+                <button id="clear-data-btn" class="btn-secondary">Clear All</button>
+                <span id="bill-count">0 bills loaded</span>
+            </div>
+
+            <div id="account-info" class="account-info">
+                <div class="account-info-item">
+                    <span class="label">Account Number</span>
+                    <span id="account-number" class="value">-</span>
+                </div>
+                <div class="account-info-item">
+                    <span class="label">Customer Name</span>
+                    <span id="customer-name" class="value">-</span>
+                </div>
+                <div class="account-info-item">
+                    <span class="label">Service Address</span>
+                    <span id="service-address" class="value">-</span>
+                </div>
+            </div>
+
+            <div id="dashboard">
+                <div class="chart-container">
+                    <h3>Electricity Usage (kWh)</h3>
+                    <canvas id="electricity-usage-chart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Natural Gas Usage (Therms)</h3>
+                    <canvas id="gas-usage-chart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Electricity Rates ($/kWh)</h3>
+                    <canvas id="electricity-rates-chart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Gas Rates ($/Therm)</h3>
+                    <canvas id="gas-rates-chart"></canvas>
+                </div>
+                <div class="chart-container wide">
+                    <h3>Total Monthly Cost ($)</h3>
+                    <canvas id="total-cost-chart"></canvas>
+                </div>
+            </div>
+
+            <section id="data-table-section">
+                <h3>Bill Details</h3>
+                <div class="table-wrapper">
+                    <table id="data-table">
+                        <thead>
+                            <tr>
+                                <th>Statement Date</th>
+                                <th>Service Period</th>
+                                <th>Days</th>
+                                <th>kWh</th>
+                                <th>Elec. Delivery Rate</th>
+                                <th>Elec. Supply Rate</th>
+                                <th>Elec. Total</th>
+                                <th>Therms</th>
+                                <th>Gas Delivery Rate</th>
+                                <th>Gas Supply Rate</th>
+                                <th>Gas Total</th>
+                                <th>Total Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </section>
+
+        <section id="error-section" class="hidden">
+            <h3>Processing Errors</h3>
+            <ul id="error-list"></ul>
+        </section>
+    </main>
+
+    <footer id="footer" class="hidden">
+        <div class="privacy-notice">
+            <strong>All processing happens in your browser. Your data never leaves your device.</strong>
+        </div>
+    </footer>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

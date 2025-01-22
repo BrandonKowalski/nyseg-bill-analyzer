@@ -1,0 +1,17 @@
+{
+  "name": "nyseg-bill-analyzer",
+  "version": "1.0.0",
+  "description": "NYSEG utility bill analyzer - extracts rates and usage data from PDF bills",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run scripts/dev.js",
+    "build": "bun run scripts/build.js",
+    "preview": "bun run build && bunx serve dist -p 8080",
+    "clean": "rm -rf dist/*"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.7",
+    "pdfjs-dist": "3.11.174"
+  },
+  "private": true
+}
