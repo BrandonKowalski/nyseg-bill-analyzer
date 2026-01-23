@@ -26,13 +26,14 @@ const resultsSection = document.getElementById('results-section');
 const errorSection = document.getElementById('error-section');
 const errorList = document.getElementById('error-list');
 const tableBody = document.getElementById('table-body');
-const billCount = document.getElementById('bill-count');
 const exportBtn = document.getElementById('export-csv-btn');
 const uploadMoreBtn = document.getElementById('upload-more-btn');
 const clearBtn = document.getElementById('clear-data-btn');
 const accountNumberEl = document.getElementById('account-number');
 const customerNameEl = document.getElementById('customer-name');
 const serviceAddressEl = document.getElementById('service-address');
+const billsLoadedEl = document.getElementById('bills-loaded');
+const dateRangeEl = document.getElementById('date-range');
 const privacyNoticeTop = document.getElementById('privacy-notice-top');
 const footer = document.getElementById('footer');
 const uploadSection = document.getElementById('upload-section');
@@ -270,13 +271,31 @@ async function processFiles(files) {
  * Update the UI with current state
  */
 function updateUI() {
-    // Update bill count
-    billCount.textContent = `${state.bills.length} bill${state.bills.length !== 1 ? 's' : ''} loaded`;
-
     // Update account info
     accountNumberEl.textContent = state.accountInfo.accountNumber || '-';
     customerNameEl.textContent = state.accountInfo.customerName || '-';
     serviceAddressEl.textContent = state.accountInfo.serviceAddress || '-';
+
+    // Update bills loaded count
+    billsLoadedEl.textContent = state.bills.length;
+
+    // Update date range
+    if (state.bills.length > 0) {
+        const sortedBills = [...state.bills].sort((a, b) => {
+            if (!a.statementDate || !b.statementDate) return 0;
+            return a.statementDate - b.statementDate;
+        });
+        const firstDate = sortedBills[0].statementDate;
+        const lastDate = sortedBills[sortedBills.length - 1].statementDate;
+        if (firstDate && lastDate) {
+            const formatShort = (date) => date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+            dateRangeEl.textContent = `${formatShort(firstDate)} - ${formatShort(lastDate)}`;
+        } else {
+            dateRangeEl.textContent = '-';
+        }
+    } else {
+        dateRangeEl.textContent = '-';
+    }
 
     // Render table
     renderTable();
@@ -296,10 +315,13 @@ function renderTable() {
             ? `${formatDate(bill.servicePeriod.start)} - ${formatDate(bill.servicePeriod.end)}`
             : 'N/A';
 
+        const tempDisplay = bill.averageDailyTemp !== null ? `${bill.averageDailyTemp}°F` : '-';
+
         row.innerHTML = `
             <td>${formatDate(bill.statementDate)}</td>
             <td>${servicePeriod}</td>
             <td>${bill.servicePeriod.days}</td>
+            <td>${tempDisplay}</td>
             <td>${bill.electricity.usage.toLocaleString()}</td>
             <td>${formatRate(bill.electricity.deliveryRate)}</td>
             <td>${formatRate(bill.electricity.supplyRate)}</td>

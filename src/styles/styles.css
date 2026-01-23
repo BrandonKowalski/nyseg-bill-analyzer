@@ -28,19 +28,38 @@ body {
 }
 
 header {
-    background: linear-gradient(135deg, var(--primary-color), #3b82f6);
-    color: white;
+    background: #1e293b;
+    color: #94a3b8;
     padding: 2rem;
     text-align: center;
 }
 
 header h1 {
     font-size: 2rem;
+    margin-bottom: 0.25rem;
+}
+
+header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
     margin-bottom: 0.5rem;
+    color: #60a5fa;
 }
 
 header p {
-    opacity: 0.9;
+    color: #ffffff;
+    font-size: 1.15rem;
+    margin-top: 0.5rem;
+}
+
+header .slogan {
+    color: #4ade80;
+}
+
+header .slogan strong {
+    font-weight: 700;
+    font-size: 1.15em;
+    color: #fb923c;
 }
 
 /* Privacy Notice */
@@ -136,7 +155,8 @@ main {
 /* Account Info */
 .account-info {
     display: flex;
-    gap: 2rem;
+    justify-content: center;
+    gap: 0;
     background: var(--surface);
     padding: 1.25rem 1.5rem;
     border-radius: 12px;
@@ -149,6 +169,13 @@ main {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+    padding: 0 2rem;
+    border-right: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.account-info-item:last-child {
+    border-right: none;
 }
 
 .account-info-item .label {
@@ -219,7 +246,7 @@ main {
 
 .chart-container {
     background: var(--surface);
-    padding: 1.5rem;
+    padding: 1.5rem 1.5rem 1rem 1.5rem;
     border-radius: 12px;
     box-shadow: var(--shadow);
 }
@@ -239,6 +266,16 @@ main {
     max-height: 300px;
 }
 
+/* Chart Legend Styling */
+.chart-container .chartjs-legend {
+    margin-top: 1rem;
+}
+
+/* Make legend items more spaced and readable */
+.chart-container canvas + div {
+    padding-top: 0.5rem;
+}
+
 /* Data Table */
 #data-table-section {
     background: var(--surface);
@@ -254,6 +291,26 @@ main {
 
 .table-wrapper {
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+}
+
+.table-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+    background: var(--background);
+    border-radius: 4px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
 }
 
 #data-table {
@@ -336,6 +393,16 @@ footer .privacy-notice {
 }
 
 /* Responsive */
+
+/* Large tablets and small desktops */
+@media (max-width: 1200px) {
+    main {
+        max-width: 100%;
+        padding: 1.5rem;
+    }
+}
+
+/* Tablets */
 @media (max-width: 900px) {
     #dashboard {
         grid-template-columns: 1fr;
@@ -344,8 +411,80 @@ footer .privacy-notice {
     .chart-container.wide {
         grid-column: 1;
     }
+
+    .chart-container {
+        padding: 1.25rem;
+    }
+
+    .chart-container canvas {
+        max-height: 250px;
+    }
+
+    #data-table {
+        font-size: 0.8rem;
+    }
+
+    #data-table th,
+    #data-table td {
+        padding: 0.5rem 0.75rem;
+    }
 }
 
+/* Small tablets */
+@media (max-width: 768px) {
+    main {
+        padding: 1rem;
+    }
+
+    .account-info {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+
+    .account-info-item {
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        padding: 0 0 0.75rem 0;
+    }
+
+    .account-info-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .toolbar {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        padding: 0.6rem 1.25rem;
+        font-size: 0.9rem;
+        flex: 1;
+        min-width: 120px;
+        text-align: center;
+    }
+
+    #dashboard {
+        gap: 1rem;
+    }
+
+    .chart-container h3 {
+        font-size: 0.9rem;
+    }
+
+    #data-table-section {
+        padding: 1rem;
+    }
+
+    #data-table-section h3 {
+        font-size: 1rem;
+    }
+}
+
+/* Mobile phones */
 @media (max-width: 600px) {
     header {
         padding: 1.5rem 1rem;
@@ -355,12 +494,20 @@ footer .privacy-notice {
         font-size: 1.5rem;
     }
 
-    main {
-        padding: 1rem;
+    header h2 {
+        font-size: 1.25rem;
+    }
+
+    header p {
+        font-size: 0.9rem;
     }
 
     #drop-zone {
         padding: 2rem 1rem;
+    }
+
+    .drop-zone-content p {
+        font-size: 1rem;
     }
 
     .toolbar {
@@ -368,8 +515,72 @@ footer .privacy-notice {
         align-items: stretch;
     }
 
-    #bill-count {
-        margin-left: 0;
-        text-align: center;
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .chart-container {
+        padding: 1rem;
+    }
+
+    .chart-container canvas {
+        max-height: 200px;
+    }
+
+    #data-table {
+        font-size: 0.75rem;
+    }
+
+    #data-table th,
+    #data-table td {
+        padding: 0.4rem 0.5rem;
+    }
+
+    .account-info-item .label {
+        font-size: 0.7rem;
+    }
+
+    .account-info-item .value {
+        font-size: 0.9rem;
+    }
+}
+
+/* Very small phones */
+@media (max-width: 400px) {
+    main {
+        padding: 0.75rem;
+    }
+
+    header {
+        padding: 1rem;
+    }
+
+    header h1 {
+        font-size: 1.25rem;
+    }
+
+    header h2 {
+        font-size: 1.1rem;
+    }
+
+    .chart-container {
+        padding: 0.75rem;
+        border-radius: 8px;
+    }
+
+    .chart-container h3 {
+        font-size: 0.85rem;
+        margin-bottom: 0.75rem;
+    }
+
+    #data-table-section {
+        padding: 0.75rem;
+        border-radius: 8px;
+    }
+
+    .account-info {
+        border-radius: 8px;
     }
 }

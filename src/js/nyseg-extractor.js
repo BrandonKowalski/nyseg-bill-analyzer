@@ -121,6 +121,7 @@ export function extractBillData(text, fileName) {
             end: null,
             days: 0
         },
+        averageDailyTemp: null,  // Average daily temperature in °F
         electricity: {
             usage: 0,
             basicServiceCharge: 0,
@@ -151,6 +152,7 @@ export function extractBillData(text, fileName) {
             totalCost: 0
         },
         totalEnergyCharges: 0,
+        miscellaneousCharges: 0,
         amountDue: 0
     };
 
@@ -440,6 +442,15 @@ export function extractBillData(text, fileName) {
         data.totalEnergyCharges = parseNumber(totalEnergyMatch[1]);
     }
 
+    // Total Miscellaneous Charges
+    const miscMatch = text.match(/Total\s+Miscellaneous\s+Charges\s+\$?([\d,.]+)/i);
+    if (miscMatch) {
+        data.miscellaneousCharges = parseNumber(miscMatch[1]);
+    }
+
+    // Add miscellaneous charges to total energy charges for true total
+    data.totalEnergyCharges += data.miscellaneousCharges;
+
     // Amount Due
     const amountDueMatch = text.match(/Amount\s+Due:?\s+\$?([\d,.]+)/i);
     if (amountDueMatch) {
@@ -450,6 +461,27 @@ export function extractBillData(text, fileName) {
     if (data.servicePeriod.days === 0 && data.servicePeriod.start && data.servicePeriod.end) {
         const diffTime = Math.abs(data.servicePeriod.end - data.servicePeriod.start);
         data.servicePeriod.days = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    }
+
+    // === AVERAGE DAILY TEMPERATURE ===
+    // Found in "Electricity Daily Average Comparisons" section
+    // Format: "Jan-25   119 kwh   27° F" or similar
+    // The temperature appears after "kwh" and before "F"
+
+    // Look for pattern in the Daily Average Comparisons section
+    // The current billing period row contains: {period} {usage} kwh {temp}° F
+    const tempMatch = text.match(/Daily\s+Average\s+Comparisons[\s\S]*?(\d+)\s*kwh\s+(\d+)°?\s*F/i);
+    if (tempMatch) {
+        data.averageDailyTemp = parseInt(tempMatch[2]);
+    }
+
+    // Alternative pattern: look for temperature after "Average Daily Temp" header
+    // Sometimes formatted as "27° F" directly
+    if (data.averageDailyTemp === null) {
+        const altTempMatch = text.match(/Average\s+Daily\s+Temp[\s\S]*?(\d+)°?\s*F/i);
+        if (altTempMatch) {
+            data.averageDailyTemp = parseInt(altTempMatch[1]);
+        }
     }
 
     return data;

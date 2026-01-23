@@ -11,13 +11,14 @@
 </head>
 <body>
     <header>
-        <h1>NYSEG Bill Analyzer</h1>
-        <p><strong>Parse the bills from your least favorite foreign-owned natural monopoly!</strong></p>
+        <h1 class="slogan"><strong>N</strong>ever <strong>Y</strong>ielding <strong>S</strong>hareholder <strong>E</strong>ntitlement &amp; <strong>G</strong>reed</h1>
+        <h2>NYSEG Bill Analyzer</h2>
+        <p>Parse the bills from your least favorite foreign-owned natural monopoly!</p>
     </header>
 
     <main>
         <div id="privacy-notice-top" class="privacy-notice">
-            <strong>All processing happens in your browser. Your data never leaves your device.</strong>
+            <strong>No data leaves your device. All processing happens in browser.</strong>
         </div>
 
         <section id="upload-section">
@@ -44,7 +45,6 @@
                 <button id="export-csv-btn" class="btn-primary">Export to CSV</button>
                 <button id="upload-more-btn" class="btn-secondary">Upload More</button>
                 <button id="clear-data-btn" class="btn-secondary">Clear All</button>
-                <span id="bill-count">0 bills loaded</span>
             </div>
 
             <div id="account-info" class="account-info">
@@ -60,9 +60,42 @@
                     <span class="label">Service Address</span>
                     <span id="service-address" class="value">-</span>
                 </div>
+                <div class="account-info-item">
+                    <span class="label">Bills Loaded</span>
+                    <span id="bills-loaded" class="value">-</span>
+                </div>
+                <div class="account-info-item">
+                    <span class="label">Date Range</span>
+                    <span id="date-range" class="value">-</span>
+                </div>
             </div>
 
             <div id="dashboard">
+                <!-- Costs Overview -->
+                <div class="chart-container wide">
+                    <h3>Total Monthly Cost</h3>
+                    <canvas id="total-cost-chart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Daily Cost ($/day)</h3>
+                    <canvas id="daily-averages-chart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Electric vs Gas Split</h3>
+                    <canvas id="cost-ratio-chart"></canvas>
+                </div>
+
+                <!-- Cost Breakdowns -->
+                <div class="chart-container">
+                    <h3>Electric Cost Breakdown</h3>
+                    <canvas id="electric-cost-breakdown-chart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Gas Cost Breakdown</h3>
+                    <canvas id="gas-cost-breakdown-chart"></canvas>
+                </div>
+
+                <!-- Usage -->
                 <div class="chart-container">
                     <h3>Electricity Usage (kWh)</h3>
                     <canvas id="electricity-usage-chart"></canvas>
@@ -71,6 +104,22 @@
                     <h3>Natural Gas Usage (Therms)</h3>
                     <canvas id="gas-usage-chart"></canvas>
                 </div>
+
+                <!-- Usage & Weather Correlation -->
+                <div class="chart-container wide">
+                    <h3>Usage vs Temperature</h3>
+                    <canvas id="usage-vs-temp-chart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Average Daily Temperature</h3>
+                    <canvas id="temperature-chart"></canvas>
+                </div>
+
+                <!-- Rates -->
+                <div class="chart-container">
+                    <h3>Effective All-In Rates</h3>
+                    <canvas id="effective-rates-chart"></canvas>
+                </div>
                 <div class="chart-container">
                     <h3>Electricity Rates ($/kWh)</h3>
                     <canvas id="electricity-rates-chart"></canvas>
@@ -78,10 +127,6 @@
                 <div class="chart-container">
                     <h3>Gas Rates ($/Therm)</h3>
                     <canvas id="gas-rates-chart"></canvas>
-                </div>
-                <div class="chart-container wide">
-                    <h3>Total Monthly Cost ($)</h3>
-                    <canvas id="total-cost-chart"></canvas>
                 </div>
             </div>
 
@@ -94,6 +139,7 @@
                                 <th>Statement Date</th>
                                 <th>Service Period</th>
                                 <th>Days</th>
+                                <th>Avg Temp</th>
                                 <th>kWh</th>
                                 <th>Elec. Delivery Rate</th>
                                 <th>Elec. Supply Rate</th>

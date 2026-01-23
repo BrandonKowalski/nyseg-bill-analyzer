@@ -46,6 +46,7 @@ export function generateCSV(bills, accountInfo = {}) {
         'Service Start',
         'Service End',
         'Days',
+        'Avg Daily Temp (°F)',
         // Electricity
         'Electric kWh',
         'Electric Basic Service ($)',
@@ -74,7 +75,8 @@ export function generateCSV(bills, accountInfo = {}) {
         'Gas Taxes ($)',
         'Gas Total ($)',
         // Totals
-        'Total Energy Charges ($)',
+        'Miscellaneous Charges ($)',
+        'Total Charges ($)',
         'Amount Due ($)'
     ];
 
@@ -84,6 +86,7 @@ export function generateCSV(bills, accountInfo = {}) {
         formatDateCSV(bill.servicePeriod.start),
         formatDateCSV(bill.servicePeriod.end),
         bill.servicePeriod.days,
+        bill.averageDailyTemp !== null ? bill.averageDailyTemp : '',
         // Electricity
         bill.electricity.usage,
         bill.electricity.basicServiceCharge.toFixed(2),
@@ -112,6 +115,7 @@ export function generateCSV(bills, accountInfo = {}) {
         bill.gas.totalTaxes.toFixed(2),
         bill.gas.totalCost.toFixed(2),
         // Totals
+        bill.miscellaneousCharges.toFixed(2),
         bill.totalEnergyCharges.toFixed(2),
         bill.amountDue.toFixed(2)
     ]);
