@@ -35,7 +35,6 @@ const serviceAddressEl = document.getElementById('service-address');
 const billsLoadedEl = document.getElementById('bills-loaded');
 const dateRangeEl = document.getElementById('date-range');
 const privacyNoticeTop = document.getElementById('privacy-notice-top');
-const footer = document.getElementById('footer');
 const uploadSection = document.getElementById('upload-section');
 const header = document.querySelector('header');
 
@@ -53,6 +52,25 @@ function init() {
     setupDragAndDrop();
     setupFileInput();
     setupButtons();
+    setupCollapsibleSections();
+}
+
+/**
+ * Set up collapsible chart sections
+ */
+function setupCollapsibleSections() {
+    const sectionHeaders = document.querySelectorAll('.section-header');
+
+    sectionHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            const isExpanded = header.getAttribute('aria-expanded') === 'true';
+            const content = header.nextElementSibling;
+
+            // Toggle state
+            header.setAttribute('aria-expanded', !isExpanded);
+            content.classList.toggle('collapsed', isExpanded);
+        });
+    });
 }
 
 // Track the last highlighted index from chart hover
@@ -169,7 +187,6 @@ function setupButtons() {
         uploadSection.classList.remove('hidden');
         privacyNoticeTop.classList.remove('hidden');
         header.classList.remove('hidden');
-        footer.classList.add('hidden');
     });
 }
 
@@ -241,11 +258,10 @@ async function processFiles(files) {
         // Show results
         if (state.bills.length > 0) {
             resultsSection.classList.remove('hidden');
-            // Hide upload section, header, and move privacy notice to footer
+            // Hide upload section and header
             uploadSection.classList.add('hidden');
             privacyNoticeTop.classList.add('hidden');
             header.classList.add('hidden');
-            footer.classList.remove('hidden');
         }
 
         // Show errors if any

@@ -35,25 +35,27 @@ const commonOptions = {
                 pointStyle: 'circle',
                 padding: 20,
                 font: {
-                    size: 13,
-                    weight: '500'
+                    size: 14,
+                    weight: '600'
                 },
-                boxWidth: 8,
-                boxHeight: 8
+                color: '#1e293b',
+                boxWidth: 10,
+                boxHeight: 10
             }
         },
         tooltip: {
             mode: 'index',
             intersect: false,
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            backgroundColor: 'rgba(0, 0, 0, 0.85)',
             titleFont: {
-                size: 13,
-                weight: '600'
+                size: 14,
+                weight: '700'
             },
             bodyFont: {
-                size: 12
+                size: 13,
+                weight: '500'
             },
-            padding: 10,
+            padding: 12,
             cornerRadius: 6
         }
     },
@@ -64,19 +66,30 @@ const commonOptions = {
             },
             ticks: {
                 font: {
-                    size: 11
-                }
+                    size: 12,
+                    weight: '600'
+                },
+                color: '#334155'
             }
         },
         y: {
             beginAtZero: true,
             grid: {
-                color: '#e2e8f0'
+                color: '#cbd5e1'
             },
             ticks: {
                 font: {
-                    size: 11
-                }
+                    size: 12,
+                    weight: '600'
+                },
+                color: '#334155'
+            },
+            title: {
+                font: {
+                    size: 13,
+                    weight: '700'
+                },
+                color: '#1e293b'
             }
         }
     }
@@ -154,7 +167,9 @@ export function initCharts() {
                     ...commonOptions.scales.y,
                     title: {
                         display: true,
-                        text: 'kWh'
+                        text: 'kWh',
+                        font: { size: 13, weight: '700' },
+                        color: '#1e293b'
                     }
                 }
             }
@@ -196,7 +211,9 @@ export function initCharts() {
                     ...commonOptions.scales.y,
                     title: {
                         display: true,
-                        text: 'Therms'
+                        text: 'Therms',
+                        font: { size: 13, weight: '700' },
+                        color: '#1e293b'
                     }
                 }
             }
@@ -247,7 +264,9 @@ export function initCharts() {
                     ...commonOptions.scales.y,
                     title: {
                         display: true,
-                        text: '$/kWh'
+                        text: '$/kWh',
+                        font: { size: 13, weight: '700' },
+                        color: '#1e293b'
                     }
                 }
             }
@@ -298,7 +317,9 @@ export function initCharts() {
                     ...commonOptions.scales.y,
                     title: {
                         display: true,
-                        text: '$/Therm'
+                        text: '$/Therm',
+                        font: { size: 13, weight: '700' },
+                        color: '#1e293b'
                     }
                 }
             }
@@ -352,7 +373,9 @@ export function initCharts() {
                     stacked: true,
                     title: {
                         display: true,
-                        text: 'Cost ($)'
+                        text: 'Cost ($)',
+                        font: { size: 13, weight: '700' },
+                        color: '#1e293b'
                     }
                 }
             }
@@ -394,7 +417,9 @@ export function initCharts() {
                     ...commonOptions.scales.y,
                     title: {
                         display: true,
-                        text: '°F'
+                        text: '°F',
+                        font: { size: 13, weight: '700' },
+                        color: '#1e293b'
                     }
                 }
             }
@@ -438,7 +463,9 @@ export function initCharts() {
                     ...commonOptions.scales.y,
                     title: {
                         display: true,
-                        text: '$/day'
+                        text: '$/day',
+                        font: { size: 13, weight: '700' },
+                        color: '#1e293b'
                     }
                 }
             }
@@ -506,7 +533,8 @@ export function initCharts() {
             },
             scales: {
                 x: {
-                    grid: { display: false }
+                    grid: { display: false },
+                    ticks: { font: { size: 12, weight: '600' }, color: '#334155' }
                 },
                 y: {
                     type: 'linear',
@@ -515,9 +543,12 @@ export function initCharts() {
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text: 'Usage/day'
+                        text: 'Usage/day',
+                        font: { size: 13, weight: '700' },
+                        color: '#1e293b'
                     },
-                    grid: { color: '#e2e8f0' }
+                    ticks: { font: { size: 12, weight: '600' }, color: '#334155' },
+                    grid: { color: '#cbd5e1' }
                 },
                 y1: {
                     type: 'linear',
@@ -525,8 +556,11 @@ export function initCharts() {
                     position: 'right',
                     title: {
                         display: true,
-                        text: '°F'
+                        text: '°F',
+                        font: { size: 13, weight: '700' },
+                        color: '#1e293b'
                     },
+                    ticks: { font: { size: 12, weight: '600' }, color: '#334155' },
                     grid: { drawOnChartArea: false }
                 }
             }
@@ -581,7 +615,7 @@ export function initCharts() {
                 y: {
                     ...commonOptions.scales.y,
                     stacked: true,
-                    title: { display: true, text: '$' }
+                    title: { display: true, text: '$', font: { size: 13, weight: '700' }, color: '#1e293b' }
                 }
             }
         }
@@ -635,7 +669,7 @@ export function initCharts() {
                 y: {
                     ...commonOptions.scales.y,
                     stacked: true,
-                    title: { display: true, text: '$' }
+                    title: { display: true, text: '$', font: { size: 13, weight: '700' }, color: '#1e293b' }
                 }
             }
         }
@@ -680,7 +714,7 @@ export function initCharts() {
                     ...commonOptions.scales.y,
                     stacked: true,
                     max: 100,
-                    title: { display: true, text: '%' }
+                    title: { display: true, text: '%', font: { size: 13, weight: '700' }, color: '#1e293b' }
                 }
             }
         }
@@ -733,21 +767,26 @@ export function initCharts() {
                 }
             },
             scales: {
-                x: { grid: { display: false } },
+                x: {
+                    grid: { display: false },
+                    ticks: { font: { size: 12, weight: '600' }, color: '#334155' }
+                },
                 y: {
                     type: 'linear',
                     display: true,
                     position: 'left',
                     beginAtZero: true,
-                    title: { display: true, text: '$/kWh' },
-                    grid: { color: '#e2e8f0' }
+                    title: { display: true, text: '$/kWh', font: { size: 13, weight: '700' }, color: '#1e293b' },
+                    ticks: { font: { size: 12, weight: '600' }, color: '#334155' },
+                    grid: { color: '#cbd5e1' }
                 },
                 y1: {
                     type: 'linear',
                     display: true,
                     position: 'right',
                     beginAtZero: true,
-                    title: { display: true, text: '$/therm' },
+                    title: { display: true, text: '$/therm', font: { size: 13, weight: '700' }, color: '#1e293b' },
+                    ticks: { font: { size: 12, weight: '600' }, color: '#334155' },
                     grid: { drawOnChartArea: false }
                 }
             }

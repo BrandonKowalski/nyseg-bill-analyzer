@@ -11,9 +11,14 @@
 </head>
 <body>
     <header>
+        <a href="https://github.com/BrandonKowalski/nyseg-bill-analyzer" target="_blank" rel="noopener noreferrer" class="github-link" aria-label="View source on GitHub">
+            <svg width="32" height="32" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+        </a>
         <h1 class="slogan"><strong>N</strong>ever <strong>Y</strong>ielding <strong>S</strong>hareholder <strong>E</strong>ntitlement &amp; <strong>G</strong>reed</h1>
         <h2>NYSEG Bill Analyzer</h2>
-        <p>Parse the bills from your least favorite foreign-owned natural monopoly!</p>
+        <p>Parse bills from your least favorite foreign-owned natural monopoly!</p>
     </header>
 
     <main>
@@ -45,6 +50,11 @@
                 <button id="export-csv-btn" class="btn-primary">Export to CSV</button>
                 <button id="upload-more-btn" class="btn-secondary">Import More</button>
                 <button id="clear-data-btn" class="btn-secondary">Clear All</button>
+                <a href="https://github.com/BrandonKowalski/nyseg-bill-analyzer" target="_blank" rel="noopener noreferrer" class="github-link-toolbar" aria-label="View source on GitHub">
+                    <svg width="28" height="28" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                    </svg>
+                </a>
             </div>
 
             <div id="account-info" class="account-info">
@@ -72,61 +82,121 @@
 
             <div id="dashboard">
                 <!-- Costs Overview -->
-                <div class="chart-container wide">
-                    <h3>Total Monthly Cost</h3>
-                    <canvas id="total-cost-chart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3>Daily Cost ($/day)</h3>
-                    <canvas id="daily-averages-chart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3>Electric vs Gas Split</h3>
-                    <canvas id="cost-ratio-chart"></canvas>
+                <div class="chart-section">
+                    <button class="section-header" aria-expanded="true">
+                        <span>Costs Overview</span>
+                        <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="section-content">
+                        <div class="chart-grid">
+                            <div class="chart-container wide">
+                                <h3>Total Monthly Cost</h3>
+                                <canvas id="total-cost-chart"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <h3>Daily Cost ($/day)</h3>
+                                <canvas id="daily-averages-chart"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <h3>Electric vs Gas Split</h3>
+                                <canvas id="cost-ratio-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Cost Breakdowns -->
-                <div class="chart-container">
-                    <h3>Electric Cost Breakdown</h3>
-                    <canvas id="electric-cost-breakdown-chart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3>Gas Cost Breakdown</h3>
-                    <canvas id="gas-cost-breakdown-chart"></canvas>
+                <div class="chart-section">
+                    <button class="section-header" aria-expanded="true">
+                        <span>Cost Breakdowns</span>
+                        <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="section-content">
+                        <div class="chart-grid">
+                            <div class="chart-container">
+                                <h3>Electric Cost Breakdown</h3>
+                                <canvas id="electric-cost-breakdown-chart"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <h3>Gas Cost Breakdown</h3>
+                                <canvas id="gas-cost-breakdown-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Usage -->
-                <div class="chart-container">
-                    <h3>Electricity Usage (kWh)</h3>
-                    <canvas id="electricity-usage-chart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3>Natural Gas Usage (Therms)</h3>
-                    <canvas id="gas-usage-chart"></canvas>
+                <div class="chart-section">
+                    <button class="section-header" aria-expanded="true">
+                        <span>Usage</span>
+                        <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="section-content">
+                        <div class="chart-grid">
+                            <div class="chart-container">
+                                <h3>Electricity Usage (kWh)</h3>
+                                <canvas id="electricity-usage-chart"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <h3>Natural Gas Usage (Therms)</h3>
+                                <canvas id="gas-usage-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Usage & Weather Correlation -->
-                <div class="chart-container wide">
-                    <h3>Usage vs Temperature</h3>
-                    <canvas id="usage-vs-temp-chart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3>Average Daily Temperature</h3>
-                    <canvas id="temperature-chart"></canvas>
+                <!-- Weather -->
+                <div class="chart-section">
+                    <button class="section-header" aria-expanded="true">
+                        <span>Weather &amp; Correlation</span>
+                        <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="section-content">
+                        <div class="chart-grid">
+                            <div class="chart-container">
+                                <h3>Usage vs Temperature</h3>
+                                <canvas id="usage-vs-temp-chart"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <h3>Average Daily Temperature</h3>
+                                <canvas id="temperature-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Rates -->
-                <div class="chart-container">
-                    <h3>Effective All-In Rates</h3>
-                    <canvas id="effective-rates-chart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3>Electricity Rates ($/kWh)</h3>
-                    <canvas id="electricity-rates-chart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3>Gas Rates ($/Therm)</h3>
-                    <canvas id="gas-rates-chart"></canvas>
+                <div class="chart-section">
+                    <button class="section-header" aria-expanded="true">
+                        <span>Rates</span>
+                        <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="section-content">
+                        <div class="chart-grid">
+                            <div class="chart-container wide">
+                                <h3>Effective All-In Rates</h3>
+                                <canvas id="effective-rates-chart"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <h3>Electricity Rates ($/kWh)</h3>
+                                <canvas id="electricity-rates-chart"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <h3>Gas Rates ($/Therm)</h3>
+                                <canvas id="gas-rates-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -163,12 +233,6 @@
             <ul id="error-list"></ul>
         </section>
     </main>
-
-    <footer id="footer" class="hidden">
-        <div class="privacy-notice">
-            <strong>No data leaves your device. All processing happens in your browser.</strong>
-        </div>
-    </footer>
 
     <script type="module" src="js/app.js"></script>
 </body>
