@@ -764,6 +764,14 @@ footer .build-hash {
 }
 
 @media (max-width: 600px) {
+    .chart-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-container.wide {
+        grid-column: 1;
+    }
+
     header {
         padding: 1.5rem 1rem;
     }
