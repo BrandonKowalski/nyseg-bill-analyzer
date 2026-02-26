@@ -25,6 +25,8 @@ body {
     color: var(--text-primary);
     line-height: 1.6;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
@@ -35,31 +37,6 @@ header {
     position: relative;
 }
 
-.github-link {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    color: #94a3b8;
-    transition: color 0.2s ease, transform 0.2s ease;
-}
-
-.github-link:hover {
-    color: #ffffff;
-    transform: scale(1.1);
-}
-
-.github-link-toolbar {
-    margin-left: auto;
-    color: var(--text-secondary);
-    transition: color 0.2s ease, transform 0.2s ease;
-    display: flex;
-    align-items: center;
-}
-
-.github-link-toolbar:hover {
-    color: var(--text-primary);
-    transform: scale(1.1);
-}
 
 header h1 {
     font-size: 2rem;
@@ -75,7 +52,8 @@ header h2 {
 
 header p {
     color: #ffffff;
-    font-size: 1.15rem;
+    font-size: 1.3rem;
+    font-weight: 500;
     margin-top: 0.5rem;
 }
 
@@ -87,6 +65,94 @@ header .slogan strong {
     font-weight: 700;
     font-size: 1.15em;
     color: #fb923c;
+    vertical-align: baseline;
+}
+
+/* Acronym expansion animation */
+.acronym-word {
+    display: inline-block;
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+
+.word-rest {
+    display: inline-block;
+    max-width: 0;
+    opacity: 0;
+    clip-path: inset(0);
+    animation:
+        expand-width 1.6s ease-out forwards,
+        fade-in 1.2s ease-out forwards;
+}
+
+.dot {
+    display: inline-block;
+    vertical-align: baseline;
+    animation:
+        shrink-width 1.2s ease-out forwards,
+        fade-in-reverse 0.8s ease-out forwards;
+}
+
+.acronym-amp {
+    display: inline-block;
+    opacity: 0;
+    max-width: 0;
+    clip-path: inset(0);
+    vertical-align: baseline;
+    margin-right: 0;
+    animation:
+        expand-amp 1.6s ease-out forwards,
+        fade-in 1.2s ease-out forwards;
+}
+
+/* Staggered delays — 1.5s initial pause, 0.15s apart for a wave effect */
+.acronym-word:nth-child(1) .word-rest   { animation-delay: 1.5s, 1.5s; }
+.dot:nth-child(2)                        { animation-delay: 1.5s, 1.5s; }
+.acronym-word:nth-child(3) .word-rest   { animation-delay: 1.65s, 1.65s; }
+.dot:nth-child(4)                        { animation-delay: 1.65s, 1.65s; }
+.acronym-word:nth-child(5) .word-rest   { animation-delay: 1.8s, 1.8s; }
+.dot:nth-child(6)                        { animation-delay: 1.8s, 1.8s; }
+.acronym-word:nth-child(7) .word-rest   { animation-delay: 1.95s, 1.95s; }
+.dot:nth-child(8)                        { animation-delay: 1.95s, 1.95s; }
+.acronym-amp                             { animation-delay: 1.95s, 1.95s; }
+.acronym-word:nth-child(10) .word-rest  { animation-delay: 2.1s, 2.1s; }
+.dot:nth-child(11)                       { animation-delay: 2.1s, 2.1s; }
+
+@keyframes expand-width {
+    from { max-width: 0; margin-right: 0; }
+    to   { max-width: 14ch; margin-right: 0.25em; }
+}
+
+@keyframes expand-amp {
+    from { max-width: 0; margin-right: 0; }
+    to   { max-width: 3ch; margin-right: 0.25em; }
+}
+
+@keyframes shrink-width {
+    from { max-width: 0.6em; }
+    to   { max-width: 0; overflow: hidden; }
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes fade-in-reverse {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+/* Links */
+a {
+    color: var(--primary-color);
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 2px;
+}
+
+header a {
+    color: #fbbf24;
 }
 
 /* Privacy Notice */
@@ -261,6 +327,14 @@ main {
 #bill-count {
     color: var(--text-secondary);
     margin-left: auto;
+}
+
+.toolbar-privacy {
+    margin-left: auto;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
 }
 
 /* Dashboard */
@@ -460,6 +534,130 @@ main {
     border-bottom: none;
 }
 
+/* Footer */
+main {
+    flex: 1;
+}
+
+footer {
+    background: #1e293b;
+    padding: 1.5rem 2rem;
+    color: #94a3b8;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-top: auto;
+    overflow: hidden;
+}
+
+.footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 95vw;
+    margin: 0 auto;
+    position: relative;
+}
+
+.footer-text {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    background: #1e293b;
+    padding: 0 1.5rem;
+}
+
+footer .footer-text a {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+footer .footer-text a:hover {
+    color: #ffffff;
+}
+
+footer .build-hash {
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: #475569;
+    letter-spacing: 0.1em;
+    margin-top: 0.25rem;
+}
+
+/* Money flying to Spain */
+.money-trail {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.flying-money {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    opacity: 0;
+    font-size: 1.4em;
+    pointer-events: none;
+    animation: fly-to-spain 25s linear infinite;
+}
+
+.flying-money:nth-child(2) { animation-delay: 3.25s;  animation-name: fly-to-spain-cos; }
+.flying-money:nth-child(3) { animation-delay: 6.5s; }
+.flying-money:nth-child(4) { animation-delay: 9.75s;  animation-name: fly-to-spain-cos; }
+.flying-money:nth-child(5) { animation-delay: 13.0s; }
+.flying-money:nth-child(6) { animation-delay: 16.25s; animation-name: fly-to-spain-cos; }
+
+.spain-flag {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2.5em;
+    pointer-events: none;
+}
+
+.ny-flag {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2.5em;
+    pointer-events: none;
+}
+
+/* Sine wave — 4 oscillations, starts up */
+@keyframes fly-to-spain {
+    0%    { opacity: 1; transform: translate(0, -50%); }
+    4%    { opacity: 1; transform: translate(11vw, calc(-50% + 0.8em)); }
+    8%    { opacity: 1; transform: translate(22vw, calc(-50% - 0.8em)); }
+    12%   { opacity: 1; transform: translate(34vw, calc(-50% + 0.8em)); }
+    16%   { opacity: 1; transform: translate(45vw, calc(-50% - 0.8em)); }
+    20%   { opacity: 1; transform: translate(56vw, calc(-50% + 0.8em)); }
+    24%   { opacity: 1; transform: translate(67vw, calc(-50% - 0.8em)); }
+    28%   { opacity: 1; transform: translate(79vw, calc(-50% + 0.8em)); }
+    32%   { opacity: 1; transform: translate(90vw, -50%); }
+    33%   { opacity: 0; transform: translate(90vw, -50%); }
+    100%  { opacity: 0; transform: translate(90vw, -50%); }
+}
+
+/* Cosine wave — 4 oscillations, starts down */
+@keyframes fly-to-spain-cos {
+    0%    { opacity: 1; transform: translate(0, -50%); }
+    4%    { opacity: 1; transform: translate(11vw, calc(-50% - 0.8em)); }
+    8%    { opacity: 1; transform: translate(22vw, calc(-50% + 0.8em)); }
+    12%   { opacity: 1; transform: translate(34vw, calc(-50% - 0.8em)); }
+    16%   { opacity: 1; transform: translate(45vw, calc(-50% + 0.8em)); }
+    20%   { opacity: 1; transform: translate(56vw, calc(-50% - 0.8em)); }
+    24%   { opacity: 1; transform: translate(67vw, calc(-50% + 0.8em)); }
+    28%   { opacity: 1; transform: translate(79vw, calc(-50% - 0.8em)); }
+    32%   { opacity: 1; transform: translate(90vw, -50%); }
+    33%   { opacity: 0; transform: translate(90vw, -50%); }
+    100%  { opacity: 0; transform: translate(90vw, -50%); }
+}
+
 /* Utilities */
 .hidden {
     display: none !important;
@@ -559,6 +757,12 @@ main {
 }
 
 /* Mobile phones */
+@media (max-width: 768px) {
+    .toolbar-privacy {
+        display: none;
+    }
+}
+
 @media (max-width: 600px) {
     header {
         padding: 1.5rem 1rem;

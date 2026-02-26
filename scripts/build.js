@@ -51,6 +51,10 @@ async function build() {
   console.log("Processing HTML...");
   let html = await readFile(join(SRC, "index.html"), "utf-8");
 
+  // Inject build hash from git
+  const gitHash = Bun.spawnSync(["git", "rev-parse", "--short", "HEAD"]).stdout.toString().trim();
+  html = html.replace("__BUILD_HASH__", gitHash || "dev");
+
   // Update paths for dist folder structure (flatten styles path)
   html = html.replace(
     'href="styles/styles.css"',

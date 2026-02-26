@@ -183,6 +183,8 @@ function setupButtons() {
         clearCharts();
         resultsSection.classList.add('hidden');
         errorSection.classList.add('hidden');
+        document.getElementById('money-trail')?.classList.add('hidden');
+        document.querySelector('.footer-text')?.style.removeProperty('visibility');
         // Reset to initial state
         uploadSection.classList.remove('hidden');
         privacyNoticeTop.classList.remove('hidden');
@@ -258,6 +260,8 @@ async function processFiles(files) {
         // Show results
         if (state.bills.length > 0) {
             resultsSection.classList.remove('hidden');
+            document.getElementById('money-trail')?.classList.remove('hidden');
+            document.querySelector('.footer-text')?.style.setProperty('visibility', 'hidden');
             // Hide upload section and header
             uploadSection.classList.add('hidden');
             privacyNoticeTop.classList.add('hidden');
