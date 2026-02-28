@@ -10,13 +10,11 @@ let electricityUsageChart = null;
 let gasUsageChart = null;
 let electricityRatesChart = null;
 let gasRatesChart = null;
-let totalCostChart = null;
 let temperatureChart = null;
 let dailyAveragesChart = null;
 let usageVsTempChart = null;
 let electricCostBreakdownChart = null;
 let gasCostBreakdownChart = null;
-let costRatioChart = null;
 let effectiveRatesChart = null;
 let costPerDegreeDayChart = null;
 let markupChart = null;
@@ -328,62 +326,6 @@ export function initCharts() {
         }
     });
 
-    // Total Cost Chart
-    const totalCostCtx = document.getElementById('total-cost-chart').getContext('2d');
-    totalCostChart = new Chart(totalCostCtx, {
-        type: 'bar',
-        data: {
-            labels: [],
-            datasets: [
-                {
-                    label: 'Electricity',
-                    data: [],
-                    backgroundColor: colors.electric.main,
-                    stack: 'total'
-                },
-                {
-                    label: 'Natural Gas',
-                    data: [],
-                    backgroundColor: colors.gas.supply,
-                    stack: 'total'
-                }
-            ]
-        },
-        options: {
-            ...commonOptions,
-            plugins: {
-                ...commonOptions.plugins,
-                tooltip: {
-                    ...commonOptions.plugins.tooltip,
-                    callbacks: {
-                        label: (ctx) => `${ctx.dataset.label}: ${formatCurrency(ctx.parsed.y)}`,
-                        afterBody: (items) => {
-                            const total = items.reduce((sum, item) => sum + item.parsed.y, 0);
-                            return `Total: ${formatCurrency(total)}`;
-                        }
-                    }
-                }
-            },
-            scales: {
-                ...commonOptions.scales,
-                x: {
-                    ...commonOptions.scales.x,
-                    stacked: true
-                },
-                y: {
-                    ...commonOptions.scales.y,
-                    stacked: true,
-                    title: {
-                        display: true,
-                        text: 'Cost ($)',
-                        font: { size: 13, weight: '700' },
-                        color: '#1e293b'
-                    }
-                }
-            }
-        }
-    });
-
     // Temperature Chart
     const tempCtx = document.getElementById('temperature-chart').getContext('2d');
     temperatureChart = new Chart(tempCtx, {
@@ -677,51 +619,6 @@ export function initCharts() {
         }
     });
 
-    // Cost Ratio Chart (Electric vs Gas %)
-    const costRatioCtx = document.getElementById('cost-ratio-chart').getContext('2d');
-    costRatioChart = new Chart(costRatioCtx, {
-        type: 'bar',
-        data: {
-            labels: [],
-            datasets: [
-                {
-                    label: 'Electricity %',
-                    data: [],
-                    backgroundColor: colors.electric.main,
-                    stack: 'stack'
-                },
-                {
-                    label: 'Natural Gas %',
-                    data: [],
-                    backgroundColor: colors.gas.supply,
-                    stack: 'stack'
-                }
-            ]
-        },
-        options: {
-            ...commonOptions,
-            plugins: {
-                ...commonOptions.plugins,
-                tooltip: {
-                    ...commonOptions.plugins.tooltip,
-                    callbacks: {
-                        label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%`
-                    }
-                }
-            },
-            scales: {
-                ...commonOptions.scales,
-                x: { ...commonOptions.scales.x, stacked: true },
-                y: {
-                    ...commonOptions.scales.y,
-                    stacked: true,
-                    max: 100,
-                    title: { display: true, text: '%', font: { size: 13, weight: '700' }, color: '#1e293b' }
-                }
-            }
-        }
-    });
-
     // Cost per Degree Day (dual axis line)
     const costDegDayCtx = document.getElementById('cost-per-degree-day-chart').getContext('2d');
     costPerDegreeDayChart = new Chart(costDegDayCtx, {
@@ -961,12 +858,6 @@ export function updateCharts(bills) {
     gasRatesChart.data.datasets[1].data = sortedBills.map(b => b.gas.deliveryRate);
     gasRatesChart.update();
 
-    // Total Cost
-    totalCostChart.data.labels = labels;
-    totalCostChart.data.datasets[0].data = sortedBills.map(b => b.electricity.totalCost);
-    totalCostChart.data.datasets[1].data = sortedBills.map(b => b.gas.totalCost);
-    totalCostChart.update();
-
     // Temperature
     temperatureChart.data.labels = labels;
     temperatureChart.data.datasets[0].data = sortedBills.map(b => b.averageDailyTemp);
@@ -1003,18 +894,6 @@ export function updateCharts(bills) {
     gasCostBreakdownChart.data.datasets[1].data = sortedBills.map(b => b.gas.totalSupply);
     gasCostBreakdownChart.data.datasets[2].data = sortedBills.map(b => b.gas.totalTaxes);
     gasCostBreakdownChart.update();
-
-    // Cost Ratio (Electric vs Gas %)
-    costRatioChart.data.labels = labels;
-    costRatioChart.data.datasets[0].data = sortedBills.map(b => {
-        const total = b.electricity.totalCost + b.gas.totalCost;
-        return total > 0 ? (b.electricity.totalCost / total) * 100 : 0;
-    });
-    costRatioChart.data.datasets[1].data = sortedBills.map(b => {
-        const total = b.electricity.totalCost + b.gas.totalCost;
-        return total > 0 ? (b.gas.totalCost / total) * 100 : 0;
-    });
-    costRatioChart.update();
 
     // Cost per Degree Day (interpolate mild months, mark as approximate)
     costPerDegreeDayChart.data.labels = labels;
@@ -1137,13 +1016,11 @@ function getAllCharts() {
         gasUsageChart,
         electricityRatesChart,
         gasRatesChart,
-        totalCostChart,
         temperatureChart,
         dailyAveragesChart,
         usageVsTempChart,
         electricCostBreakdownChart,
         gasCostBreakdownChart,
-        costRatioChart,
         effectiveRatesChart,
         costPerDegreeDayChart,
         markupChart
