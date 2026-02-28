@@ -145,7 +145,7 @@ main {
 
 .drop-zone-content .sub-text {
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: #1e293b;
 }
 
 #file-input {
@@ -210,7 +210,7 @@ main {
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--text-secondary);
+    color: #1e293b;
     font-weight: 500;
 }
 
@@ -229,8 +229,9 @@ main {
     flex-wrap: wrap;
 }
 
-.btn-primary,
-.btn-secondary {
+.btn-blue,
+.btn-green,
+.btn-orange {
     padding: 0.75rem 1.5rem;
     border: none;
     border-radius: 8px;
@@ -238,29 +239,35 @@ main {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
-}
-
-.btn-primary {
-    background: var(--primary-color);
     color: white;
 }
 
-.btn-primary:hover {
-    background: var(--primary-hover);
+.btn-blue {
+    background: rgb(37, 99, 235);
 }
 
-.btn-secondary {
-    background: var(--surface);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
+.btn-blue:hover {
+    background: rgb(29, 78, 216);
 }
 
-.btn-secondary:hover {
-    background: var(--background);
+.btn-green {
+    background: rgb(22, 163, 74);
+}
+
+.btn-green:hover {
+    background: rgb(21, 128, 61);
+}
+
+.btn-orange {
+    background: rgb(234, 88, 12);
+}
+
+.btn-orange:hover {
+    background: rgb(194, 65, 12);
 }
 
 #bill-count {
-    color: var(--text-secondary);
+    color: #1e293b;
     margin-left: auto;
 }
 
@@ -374,6 +381,43 @@ main {
     color: #1e293b;
     font-size: 0.85rem;
     line-height: 1.5;
+}
+
+.chart-explainer {
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 650px;
+    padding: 1.25rem 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: #1e293b;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.chart-explainer p {
+    margin: 0.4rem 0;
+}
+
+.chart-explainer hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 0.75rem 0;
+}
+
+.chart-explainer-section-title {
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+}
+
+.chart-explainer-note {
+    color: #1e293b;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
 }
 
 /* Chart Legend Styling */
@@ -564,7 +608,8 @@ footer .build-hash {
     }
 
     .chart-formula,
-    .chart-formula-explanation {
+    .chart-formula-explanation,
+    .chart-explainer {
         display: none;
     }
 
@@ -616,8 +661,9 @@ footer .build-hash {
         justify-content: center;
     }
 
-    .btn-primary,
-    .btn-secondary {
+    .btn-blue,
+    .btn-green,
+    .btn-orange {
         padding: 0.6rem 1.25rem;
         font-size: 0.9rem;
         min-width: 120px;
@@ -693,8 +739,9 @@ footer .build-hash {
         align-items: stretch;
     }
 
-    .btn-primary,
-    .btn-secondary {
+    .btn-blue,
+    .btn-green,
+    .btn-orange {
         width: 100%;
         min-width: unset;
     }

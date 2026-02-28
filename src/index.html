@@ -46,9 +46,9 @@
 
     <section id="results-section" class="hidden">
         <div class="toolbar">
-            <button id="export-csv-btn" class="btn-primary">Export Spreadsheet</button>
-            <button id="upload-more-btn" class="btn-secondary">Add More Bills</button>
-            <button id="clear-data-btn" class="btn-secondary">Clear All</button>
+            <button id="export-csv-btn" class="btn-blue">Export Spreadsheet</button>
+            <button id="upload-more-btn" class="btn-green">Add More Bills</button>
+            <button id="clear-data-btn" class="btn-orange">Clear All</button>
             <span class="toolbar-privacy">No data leaves your device. All processing happens in your browser.</span>
         </div>
 
@@ -202,16 +202,17 @@
                             <div class="chart-formula">
                                 <span id="formula-degree-day"></span>
                             </div>
-                            <p class="chart-formula-explanation">
-                                <strong>A degree day measures how far the average temperature deviates from
-                                    65°F.</strong><br/>
-                                This normalizing for weather allows you to compare months fairly. <br/><br/>
-                                <strong>How to Calculate</strong><br/>
-                                Divide your total bill by degree days to show your cost per unit of heating/cooling
-                                demand.<br/>
-                                Months near 65°F are approximated (&#9671;) since there's little heating or cooling
-                                demand.
-                            </p>
+                            <div class="chart-explainer">
+                                <p>A <strong>degree day</strong> measures how far the average temperature deviates from 65°F.</p>
+                                <p>
+                                    <strong>HDD</strong> (Heating Degree Days) = below 65°F<br/>
+                                    <strong>CDD</strong> (Cooling Degree Days) = above 65°F
+                                </p>
+                                <hr/>
+                                <p class="chart-explainer-section-title">How to Calculate</p>
+                                <p>Divide your total bill by degree days to show your cost per unit of heating/cooling demand.</p>
+                                <p class="chart-explainer-note">&#9671; = approximated (near 65°F months)</p>
+                            </div>
                         </div>
                     </div>
                 </div>

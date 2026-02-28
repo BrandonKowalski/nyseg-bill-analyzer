@@ -113,16 +113,16 @@ const colors = {
         delivery: 'rgb(253, 186, 116)'    // Light orange
     },
     temperature: {
-        main: 'rgb(248, 113, 113)',       // Warm red
-        light: 'rgba(248, 113, 113, 0.15)'
+        main: 'rgb(249, 115, 22)',        // Orange
+        light: 'rgba(249, 115, 22, 0.15)'
     },
     taxes: {
         main: 'rgb(74, 222, 128)',        // NYSEG Green
         light: 'rgba(74, 222, 128, 0.5)'
     },
     misc: {
-        main: 'rgb(148, 163, 184)',       // Slate gray
-        light: 'rgba(148, 163, 184, 0.5)'
+        main: 'rgb(147, 197, 253)',       // Light blue
+        light: 'rgba(147, 197, 253, 0.5)'
     },
     cost: {
         main: 'rgb(74, 222, 128)',        // NYSEG Green
