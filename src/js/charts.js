@@ -187,9 +187,9 @@ export function initCharts() {
             datasets: [{
                 label: 'Therms',
                 data: [],
-                borderColor: colors.gas.main,
-                backgroundColor: colors.gas.light,
-                pointBackgroundColor: colors.gas.main,
+                borderColor: colors.gas.supply,
+                backgroundColor: 'rgba(234, 88, 12, 0.15)',
+                pointBackgroundColor: colors.gas.supply,
                 fill: true,
                 tension: 0.3,
                 pointRadius: 4,
@@ -344,7 +344,7 @@ export function initCharts() {
                 {
                     label: 'Natural Gas',
                     data: [],
-                    backgroundColor: colors.gas.main,
+                    backgroundColor: colors.gas.supply,
                     stack: 'total'
                 }
             ]
@@ -494,9 +494,9 @@ export function initCharts() {
                 {
                     label: 'Therms/day',
                     data: [],
-                    borderColor: colors.gas.main,
+                    borderColor: colors.gas.supply,
                     backgroundColor: 'transparent',
-                    pointBackgroundColor: colors.gas.main,
+                    pointBackgroundColor: colors.gas.supply,
                     tension: 0.3,
                     pointRadius: 4,
                     yAxisID: 'y'
@@ -693,7 +693,7 @@ export function initCharts() {
                 {
                     label: 'Natural Gas %',
                     data: [],
-                    backgroundColor: colors.gas.main,
+                    backgroundColor: colors.gas.supply,
                     stack: 'stack'
                 }
             ]
@@ -813,7 +813,7 @@ export function initCharts() {
                 {
                     label: 'Delivery Fees',
                     data: [],
-                    backgroundColor: colors.gas.delivery,
+                    backgroundColor: colors.gas.supply,
                     stack: 'stack'
                 },
                 {
@@ -871,9 +871,9 @@ export function initCharts() {
                 {
                     label: 'Gas ($/therm)',
                     data: [],
-                    borderColor: colors.gas.main,
+                    borderColor: colors.gas.supply,
                     backgroundColor: 'transparent',
-                    pointBackgroundColor: colors.gas.main,
+                    pointBackgroundColor: colors.gas.supply,
                     tension: 0.3,
                     pointRadius: 4,
                     yAxisID: 'y1'
