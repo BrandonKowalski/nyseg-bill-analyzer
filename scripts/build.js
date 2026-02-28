@@ -68,10 +68,15 @@ async function build() {
   const gitHash = Bun.spawnSync(["git", "rev-parse", "--short", "HEAD"]).stdout.toString().trim();
   html = html.replace("__BUILD_HASH__", gitHash || "dev");
 
-  // Update paths for dist folder structure (flatten styles path)
+  // Update paths for dist folder structure (flatten styles path) + cache bust
+  const cacheBust = gitHash || Date.now();
   html = html.replace(
     'href="styles/styles.css"',
-    'href="styles.css"'
+    `href="styles.css?v=${cacheBust}"`
+  );
+  html = html.replace(
+    'src="js/app.js"',
+    `src="js/app.js?v=${cacheBust}"`
   );
 
   await writeFile(join(DIST, "index.html"), html);
