@@ -8,10 +8,13 @@ A client-side web application that parses NYSEG utility bills (PDFs), extracts r
 
 - Drag and drop PDF bill upload
 - Extracts electricity and gas usage, rates, and costs
-- Interactive charts for usage and rate trends
-- Synchronized highlighting between charts and data table
+- Cost breakdown charts showing supply vs delivery fees vs taxes
+- Cost per degree day analysis with weather normalization
+- Effective all-in rate tracking with formulas
+- Synchronized highlighting between all charts and data table
 - CSV export with full bill details
-- Account information extraction
+- Account information extraction with total spend summary
+- Fully client-side — no data leaves your device
 
 ## Usage
 
@@ -46,6 +49,7 @@ Pushes to `main` automatically deploy to GitHub Pages via the included workflow.
 
 - [PDF.js](https://mozilla.github.io/pdf.js/) - PDF parsing
 - [Chart.js](https://www.chartjs.org/) - Data visualization
+- [KaTeX](https://katex.org/) - Math formula rendering
 - [Bun](https://bun.sh/) - Build tooling and dev server
 
 ## License
