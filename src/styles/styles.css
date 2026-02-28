@@ -574,6 +574,13 @@ footer .footer-text a:hover {
     color: #ffffff;
 }
 
+.footer-divider {
+    border: none;
+    border-top: 1px solid #334155;
+    width: 80px;
+    margin: 0.6rem auto;
+}
+
 footer .build-hash {
     font-size: 0.65rem;
     font-weight: 400;
