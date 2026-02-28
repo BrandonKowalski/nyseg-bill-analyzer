@@ -1,4 +1,4 @@
-import { mkdir, copyFile, readFile, writeFile } from "fs/promises";
+import { mkdir, copyFile, readFile, writeFile, cp } from "fs/promises";
 import { join } from "path";
 
 const ROOT = import.meta.dir.replace("/scripts", "");
@@ -45,6 +45,19 @@ async function build() {
   await copyFile(
     join(NODE_MODULES, "chart.js/dist/chart.umd.js"),
     join(DIST, "vendor/chart.min.js")
+  );
+  await copyFile(
+    join(NODE_MODULES, "katex/dist/katex.min.js"),
+    join(DIST, "vendor/katex.min.js")
+  );
+  await copyFile(
+    join(NODE_MODULES, "katex/dist/katex.min.css"),
+    join(DIST, "vendor/katex.min.css")
+  );
+  await cp(
+    join(NODE_MODULES, "katex/dist/fonts"),
+    join(DIST, "vendor/fonts"),
+    { recursive: true }
   );
 
   // Copy and update HTML

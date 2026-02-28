@@ -5,13 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NYSEG Bill Analyzer</title>
     <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="vendor/katex.min.css">
     <script src="vendor/pdf.min.js"></script>
     <script src="vendor/chart.min.js"></script>
+    <script src="vendor/katex.min.js"></script>
     <link rel="preload" href="vendor/pdf.worker.min.js" as="script">
 </head>
 <body>
 <header>
-    <h1 class="slogan"><span class="slogan-blue">Never Yielding</span> <span class="slogan-green">Shareholder Entitlement</span> <span class="slogan-orange">&amp; Greed</span></h1>
+    <h1 class="slogan"><span class="slogan-blue">Never Yielding</span> <span class="slogan-green">Shareholder Entitlement</span>
+        <span class="slogan-orange">&amp; Greed</span></h1>
     <p>Analyze bills from your <em>least-favorite</em><br class="mobile-break"> <strong><a
             href="https://riley.house.gov/2025/09/18/rep-josh-riley-introduces-keep-lights-local-act-ban-foreign-ownership-american/"
             target="_blank">foreign-owned</a></strong> natural monopoly!</p>
@@ -70,6 +73,14 @@
                 <span class="label">Date Range</span>
                 <span id="date-range" class="value">-</span>
             </div>
+            <div class="account-info-item">
+                <span class="label">Total Spent</span>
+                <span id="total-spent" class="value">-</span>
+            </div>
+            <div class="account-info-item">
+                <span class="label">Shareholder Value</span>
+                <span class="value">Priceless</span>
+            </div>
         </div>
 
         <div id="dashboard">
@@ -85,6 +96,10 @@
                 <div class="section-content">
                     <div class="chart-grid">
                         <div class="chart-container wide">
+                            <h3>What You Paid vs What Energy Cost</h3>
+                            <canvas id="markup-chart"></canvas>
+                        </div>
+                        <div class="chart-container wide">
                             <h3>Total Monthly Cost</h3>
                             <canvas id="total-cost-chart"></canvas>
                         </div>
@@ -96,21 +111,6 @@
                             <h3>Electric vs Gas Split</h3>
                             <canvas id="cost-ratio-chart"></canvas>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Cost Breakdowns -->
-            <div class="chart-section">
-                <button class="section-header" aria-expanded="true">
-                    <span>Cost Breakdowns</span>
-                    <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                         stroke-width="2">
-                        <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
-                </button>
-                <div class="section-content">
-                    <div class="chart-grid">
                         <div class="chart-container">
                             <h3>Electric Cost Breakdown</h3>
                             <canvas id="electric-cost-breakdown-chart"></canvas>
@@ -146,10 +146,41 @@
                 </div>
             </div>
 
+            <!-- Rates -->
+            <div class="chart-section">
+                <button class="section-header" aria-expanded="true">
+                    <span>Rates</span>
+                    <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div class="section-content">
+                    <div class="chart-grid">
+                        <div class="chart-container wide">
+                            <h3>Effective All-In Rates</h3>
+                            <canvas id="effective-rates-chart"></canvas>
+                            <div class="chart-formula">
+                                <span id="formula-electric"></span>
+                                <span id="formula-gas"></span>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Electricity Rates ($/kWh)</h3>
+                            <canvas id="electricity-rates-chart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Gas Rates ($/Therm)</h3>
+                            <canvas id="gas-rates-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Weather -->
             <div class="chart-section">
                 <button class="section-header" aria-expanded="true">
-                    <span>Weather &amp; Correlation</span>
+                    <span>Weather Correlation</span>
                     <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                          stroke-width="2">
                         <polyline points="6 9 12 15 18 9"></polyline>
@@ -165,32 +196,22 @@
                             <h3>Average Daily Temperature</h3>
                             <canvas id="temperature-chart"></canvas>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Rates -->
-            <div class="chart-section">
-                <button class="section-header" aria-expanded="true">
-                    <span>Rates</span>
-                    <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                         stroke-width="2">
-                        <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
-                </button>
-                <div class="section-content">
-                    <div class="chart-grid">
                         <div class="chart-container wide">
-                            <h3>Effective All-In Rates</h3>
-                            <canvas id="effective-rates-chart"></canvas>
-                        </div>
-                        <div class="chart-container">
-                            <h3>Electricity Rates ($/kWh)</h3>
-                            <canvas id="electricity-rates-chart"></canvas>
-                        </div>
-                        <div class="chart-container">
-                            <h3>Gas Rates ($/Therm)</h3>
-                            <canvas id="gas-rates-chart"></canvas>
+                            <h3>Cost per Degree Day</h3>
+                            <canvas id="cost-per-degree-day-chart"></canvas>
+                            <div class="chart-formula">
+                                <span id="formula-degree-day"></span>
+                            </div>
+                            <p class="chart-formula-explanation">
+                                <strong>A degree day measures how far the average temperature deviates from
+                                    65°F.</strong><br/>
+                                This normalizing for weather allows you to compare months fairly. <br/><br/>
+                                <strong>How to Calculate</strong><br/>
+                                Divide your total bill by degree days to show your cost per unit of heating/cooling
+                                demand.<br/>
+                                Months near 65°F are approximated (&#9671;) since there's little heating or cooling
+                                demand.
+                            </p>
                         </div>
                     </div>
                 </div>

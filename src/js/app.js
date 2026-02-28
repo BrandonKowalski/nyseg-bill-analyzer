@@ -34,6 +34,7 @@ const customerNameEl = document.getElementById('customer-name');
 const serviceAddressEl = document.getElementById('service-address');
 const billsLoadedEl = document.getElementById('bills-loaded');
 const dateRangeEl = document.getElementById('date-range');
+const totalSpentEl = document.getElementById('total-spent');
 const privacyNoticeTop = document.getElementById('privacy-notice-top');
 const uploadSection = document.getElementById('upload-section');
 const header = document.querySelector('header');
@@ -44,6 +45,9 @@ const header = document.querySelector('header');
 function init() {
     // Initialize charts
     initCharts();
+
+    // Render KaTeX formulas
+    renderFormulas();
 
     // Set up chart hover callbacks for synchronized highlighting
     setupChartHoverSync();
@@ -313,6 +317,14 @@ function updateUI() {
         dateRangeEl.textContent = '-';
     }
 
+    // Update total spent
+    if (state.bills.length > 0) {
+        const total = state.bills.reduce((sum, b) => sum + b.totalEnergyCharges, 0);
+        totalSpentEl.textContent = formatCurrency(total);
+    } else {
+        totalSpentEl.textContent = '-';
+    }
+
     // Render table
     renderTable();
 }
@@ -374,6 +386,33 @@ function renderErrors() {
         const li = document.createElement('li');
         li.textContent = `${err.fileName}: ${err.error}`;
         errorList.appendChild(li);
+    }
+}
+
+/**
+ * Render KaTeX formulas under the effective rates chart
+ */
+function renderFormulas() {
+    const elecEl = document.getElementById('formula-electric');
+    const gasEl = document.getElementById('formula-gas');
+    if (elecEl && window.katex) {
+        katex.render(
+            String.raw`\text{Effective Rate}_{\text{elec}} = \dfrac{\text{Total Electric Cost}}{\text{Total kWh}}`,
+            elecEl, { displayMode: true, throwOnError: false }
+        );
+    }
+    if (gasEl && window.katex) {
+        katex.render(
+            String.raw`\text{Effective Rate}_{\text{gas}} = \dfrac{\text{Total Gas Cost}}{\text{Total Therms}}`,
+            gasEl, { displayMode: true, throwOnError: false }
+        );
+    }
+    const ddEl = document.getElementById('formula-degree-day');
+    if (ddEl && window.katex) {
+        katex.render(
+            String.raw`\text{Cost per Degree Day} = \dfrac{\text{Total Bill}}{\text{HDD} + \text{CDD}} \quad \text{where } \text{HDD} = \max(0,\; 65 - T_{\text{avg}}) \times \text{days}, \quad \text{CDD} = \max(0,\; T_{\text{avg}} - 65) \times \text{days}`,
+            ddEl, { displayMode: true, throwOnError: false }
+        );
     }
 }
 

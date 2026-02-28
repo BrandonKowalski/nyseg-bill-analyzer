@@ -520,7 +520,7 @@ export function formatDateShort(date) {
  * @returns {string}
  */
 export function formatCurrency(amount) {
-    return '$' + amount.toFixed(2);
+    return '$' + amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 /**

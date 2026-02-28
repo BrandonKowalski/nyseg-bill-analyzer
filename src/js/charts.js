@@ -3,7 +3,7 @@
  * Handles Chart.js chart creation and updates
  */
 
-import { formatDateShort } from './nyseg-extractor.js';
+import { formatDateShort, formatCurrency } from './nyseg-extractor.js';
 
 // Chart instances
 let electricityUsageChart = null;
@@ -18,6 +18,8 @@ let electricCostBreakdownChart = null;
 let gasCostBreakdownChart = null;
 let costRatioChart = null;
 let effectiveRatesChart = null;
+let costPerDegreeDayChart = null;
+let markupChart = null;
 
 // Common chart options
 const commonOptions = {
@@ -354,10 +356,10 @@ export function initCharts() {
                 tooltip: {
                     ...commonOptions.plugins.tooltip,
                     callbacks: {
-                        label: (ctx) => `${ctx.dataset.label}: $${ctx.parsed.y.toFixed(2)}`,
+                        label: (ctx) => `${ctx.dataset.label}: ${formatCurrency(ctx.parsed.y)}`,
                         afterBody: (items) => {
                             const total = items.reduce((sum, item) => sum + item.parsed.y, 0);
-                            return `Total: $${total.toFixed(2)}`;
+                            return `Total: ${formatCurrency(total)}`;
                         }
                     }
                 }
@@ -453,7 +455,7 @@ export function initCharts() {
                 tooltip: {
                     ...commonOptions.plugins.tooltip,
                     callbacks: {
-                        label: (ctx) => `$${ctx.parsed.y.toFixed(2)}/day`
+                        label: (ctx) => `${formatCurrency(ctx.parsed.y)}/day`
                     }
                 }
             },
@@ -601,10 +603,10 @@ export function initCharts() {
                 tooltip: {
                     ...commonOptions.plugins.tooltip,
                     callbacks: {
-                        label: (ctx) => `${ctx.dataset.label}: $${ctx.parsed.y.toFixed(2)}`,
+                        label: (ctx) => `${ctx.dataset.label}: ${formatCurrency(ctx.parsed.y)}`,
                         afterBody: (items) => {
                             const total = items.reduce((sum, item) => sum + item.parsed.y, 0);
-                            return `Total: $${total.toFixed(2)}`;
+                            return `Total: ${formatCurrency(total)}`;
                         }
                     }
                 }
@@ -655,10 +657,10 @@ export function initCharts() {
                 tooltip: {
                     ...commonOptions.plugins.tooltip,
                     callbacks: {
-                        label: (ctx) => `${ctx.dataset.label}: $${ctx.parsed.y.toFixed(2)}`,
+                        label: (ctx) => `${ctx.dataset.label}: ${formatCurrency(ctx.parsed.y)}`,
                         afterBody: (items) => {
                             const total = items.reduce((sum, item) => sum + item.parsed.y, 0);
-                            return `Total: $${total.toFixed(2)}`;
+                            return `Total: ${formatCurrency(total)}`;
                         }
                     }
                 }
@@ -715,6 +717,135 @@ export function initCharts() {
                     stacked: true,
                     max: 100,
                     title: { display: true, text: '%', font: { size: 13, weight: '700' }, color: '#1e293b' }
+                }
+            }
+        }
+    });
+
+    // Cost per Degree Day (dual axis line)
+    const costDegDayCtx = document.getElementById('cost-per-degree-day-chart').getContext('2d');
+    costPerDegreeDayChart = new Chart(costDegDayCtx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [
+                {
+                    label: '$/Degree Day',
+                    data: [],
+                    borderColor: colors.cost.main,
+                    backgroundColor: colors.cost.light,
+                    pointBackgroundColor: colors.cost.main,
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 4,
+                    yAxisID: 'y'
+                },
+                {
+                    label: 'Degree Days (HDD+CDD)',
+                    data: [],
+                    borderColor: colors.temperature.main,
+                    backgroundColor: 'transparent',
+                    pointBackgroundColor: colors.temperature.main,
+                    tension: 0.3,
+                    pointRadius: 4,
+                    borderDash: [5, 5],
+                    yAxisID: 'y1'
+                }
+            ]
+        },
+        options: {
+            ...commonOptions,
+            plugins: {
+                ...commonOptions.plugins,
+                tooltip: {
+                    ...commonOptions.plugins.tooltip,
+                    callbacks: {
+                        label: (ctx) => {
+                            const approx = ctx.chart._approxPoints?.[ctx.dataIndex] ? ' (approx.)' : '';
+                            if (ctx.dataset.label.includes('Degree Days')) {
+                                return `${ctx.parsed.y.toFixed(0)} degree days${approx}`;
+                            }
+                            return `${formatCurrency(ctx.parsed.y)}/degree day${approx}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: { display: false },
+                    ticks: { font: { size: 12, weight: '600' }, color: '#334155' }
+                },
+                y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    beginAtZero: true,
+                    title: { display: true, text: '$/Degree Day', font: { size: 13, weight: '700' }, color: '#1e293b' },
+                    ticks: { font: { size: 12, weight: '600' }, color: '#334155' },
+                    grid: { color: '#cbd5e1' }
+                },
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    beginAtZero: true,
+                    title: { display: true, text: 'Degree Days', font: { size: 13, weight: '700' }, color: '#1e293b' },
+                    ticks: { font: { size: 12, weight: '600' }, color: '#334155' },
+                    grid: { drawOnChartArea: false }
+                }
+            }
+        }
+    });
+
+    // What You Paid vs What Energy Cost (stacked bar — "the markup")
+    const markupCtx = document.getElementById('markup-chart').getContext('2d');
+    markupChart = new Chart(markupCtx, {
+        type: 'bar',
+        data: {
+            labels: [],
+            datasets: [
+                {
+                    label: 'Actual Energy (Supply)',
+                    data: [],
+                    backgroundColor: colors.electric.supply,
+                    stack: 'stack'
+                },
+                {
+                    label: 'Delivery Fees',
+                    data: [],
+                    backgroundColor: colors.gas.delivery,
+                    stack: 'stack'
+                },
+                {
+                    label: 'Taxes & Fees',
+                    data: [],
+                    backgroundColor: colors.taxes.main,
+                    stack: 'stack'
+                }
+            ]
+        },
+        options: {
+            ...commonOptions,
+            plugins: {
+                ...commonOptions.plugins,
+                tooltip: {
+                    ...commonOptions.plugins.tooltip,
+                    callbacks: {
+                        label: (ctx) => `${ctx.dataset.label}: ${formatCurrency(ctx.parsed.y)}`,
+                        afterBody: (items) => {
+                            const total = items.reduce((sum, item) => sum + item.parsed.y, 0);
+                            return `Total: ${formatCurrency(total)}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                ...commonOptions.scales,
+                x: { ...commonOptions.scales.x, stacked: true },
+                y: {
+                    ...commonOptions.scales.y,
+                    stacked: true,
+                    title: { display: true, text: 'Cost ($)', font: { size: 13, weight: '700' }, color: '#1e293b' }
                 }
             }
         }
@@ -885,6 +1016,67 @@ export function updateCharts(bills) {
     });
     costRatioChart.update();
 
+    // Cost per Degree Day (interpolate mild months, mark as approximate)
+    costPerDegreeDayChart.data.labels = labels;
+    const rawCostPerDD = sortedBills.map(b => {
+        const hdd = Math.max(0, 65 - b.averageDailyTemp) * b.servicePeriod.days;
+        const cdd = Math.max(0, b.averageDailyTemp - 65) * b.servicePeriod.days;
+        const totalDD = hdd + cdd;
+        return totalDD > 5 ? b.totalEnergyCharges / totalDD : null;
+    });
+    const rawDegreeDays = sortedBills.map(b => {
+        const hdd = Math.max(0, 65 - b.averageDailyTemp) * b.servicePeriod.days;
+        const cdd = Math.max(0, b.averageDailyTemp - 65) * b.servicePeriod.days;
+        const totalDD = hdd + cdd;
+        return totalDD > 5 ? totalDD : null;
+    });
+    // Linear interpolation for null gaps
+    const interpolate = (arr) => {
+        const result = [...arr];
+        for (let i = 0; i < result.length; i++) {
+            if (result[i] !== null) continue;
+            let prev = -1, next = -1;
+            for (let j = i - 1; j >= 0; j--) { if (arr[j] !== null) { prev = j; break; } }
+            for (let j = i + 1; j < arr.length; j++) { if (arr[j] !== null) { next = j; break; } }
+            if (prev !== -1 && next !== -1) {
+                const t = (i - prev) / (next - prev);
+                result[i] = arr[prev] + t * (arr[next] - arr[prev]);
+            } else if (prev !== -1) {
+                result[i] = arr[prev];
+            } else if (next !== -1) {
+                result[i] = arr[next];
+            }
+        }
+        return result;
+    };
+    const isApprox = rawCostPerDD.map(v => v === null);
+    costPerDegreeDayChart.data.datasets[0].data = interpolate(rawCostPerDD);
+    costPerDegreeDayChart.data.datasets[1].data = interpolate(rawDegreeDays);
+    // Style approximate points differently (hollow circles)
+    costPerDegreeDayChart.data.datasets[0].pointBackgroundColor = isApprox.map(a => a ? 'white' : colors.cost.main);
+    costPerDegreeDayChart.data.datasets[0].pointBorderColor = isApprox.map(a => a ? colors.cost.main : colors.cost.main);
+    costPerDegreeDayChart.data.datasets[0].pointBorderWidth = isApprox.map(a => a ? 2 : 1);
+    costPerDegreeDayChart.data.datasets[0].pointStyle = isApprox.map(a => a ? 'rectRot' : 'circle');
+    costPerDegreeDayChart.data.datasets[1].pointBackgroundColor = isApprox.map(a => a ? 'white' : colors.temperature.main);
+    costPerDegreeDayChart.data.datasets[1].pointBorderColor = isApprox.map(a => a ? colors.temperature.main : colors.temperature.main);
+    costPerDegreeDayChart.data.datasets[1].pointBorderWidth = isApprox.map(a => a ? 2 : 1);
+    costPerDegreeDayChart.data.datasets[1].pointStyle = isApprox.map(a => a ? 'rectRot' : 'circle');
+    costPerDegreeDayChart._approxPoints = isApprox;
+    costPerDegreeDayChart.update();
+
+    // What You Paid vs What Energy Cost (markup)
+    markupChart.data.labels = labels;
+    markupChart.data.datasets[0].data = sortedBills.map(b =>
+        b.electricity.totalSupply + b.gas.totalSupply
+    );
+    markupChart.data.datasets[1].data = sortedBills.map(b =>
+        b.electricity.totalDelivery + b.gas.totalDelivery
+    );
+    markupChart.data.datasets[2].data = sortedBills.map(b =>
+        b.electricity.totalTaxes + b.gas.totalTaxes
+    );
+    markupChart.update();
+
     // Effective Rates (all-in $/unit)
     effectiveRatesChart.data.labels = labels;
     effectiveRatesChart.data.datasets[0].data = sortedBills.map(b =>
@@ -952,7 +1144,9 @@ function getAllCharts() {
         electricCostBreakdownChart,
         gasCostBreakdownChart,
         costRatioChart,
-        effectiveRatesChart
+        effectiveRatesChart,
+        costPerDegreeDayChart,
+        markupChart
     ];
 }
 

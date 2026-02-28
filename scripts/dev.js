@@ -11,6 +11,9 @@ const VENDOR_MAP = {
   "pdf.min.js": "pdfjs-dist/build/pdf.min.js",
   "pdf.worker.min.js": "pdfjs-dist/build/pdf.worker.min.js",
   "chart.min.js": "chart.js/dist/chart.umd.js",
+  "chart.min.js.map": "chart.js/dist/chart.umd.js.map",
+  "katex.min.js": "katex/dist/katex.min.js",
+  "katex.min.css": "katex/dist/katex.min.css",
 };
 
 const PORT = 8080;
@@ -37,6 +40,16 @@ serve({
         try {
           await stat(fullPath);
           return new Response(file(fullPath));
+        } catch {
+          return new Response("Not found", { status: 404 });
+        }
+      }
+      // Serve katex fonts
+      if (vendorFile.startsWith("fonts/")) {
+        const fontPath = join(NODE_MODULES, "katex/dist", vendorFile);
+        try {
+          await stat(fontPath);
+          return new Response(file(fontPath));
         } catch {
           return new Response("Not found", { status: 404 });
         }

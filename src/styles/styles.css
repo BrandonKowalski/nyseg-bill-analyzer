@@ -354,6 +354,28 @@ main {
     max-height: 300px;
 }
 
+.chart-formula {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 1rem;
+    color: #1e293b;
+    flex-wrap: wrap;
+}
+
+.chart-formula .katex {
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.chart-formula-explanation {
+    text-align: center;
+    margin-top: 0.5rem;
+    color: #1e293b;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
 /* Chart Legend Styling */
 .chart-container .chartjs-legend {
     margin-top: 1rem;
@@ -539,6 +561,11 @@ footer .build-hash {
 
     .chart-grid {
         grid-template-columns: 1fr;
+    }
+
+    .chart-formula,
+    .chart-formula-explanation {
+        display: none;
     }
 
     .chart-container.wide {
